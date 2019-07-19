@@ -1,5 +1,6 @@
 var OregonH = OregonH || {};
 
+// Base Event Type 
 class EventType {
   constructor(type, notification, text) {
     this.type = type
@@ -8,6 +9,7 @@ class EventType {
   }
 }
 
+// State Change Event Type extends EventType
 class StatChange extends EventType {
   constructor(type, notification, text, value, stat) {
     super(type, notification, text)
@@ -16,6 +18,7 @@ class StatChange extends EventType {
   }
 } 
 
+// Shop Event type extends EventType
 class ShopEvent extends EventType {
   constructor(type, notification, text, products) {
     super(type, notification, text)
@@ -25,9 +28,12 @@ class ShopEvent extends EventType {
  
 OregonH.Event = {};
 
+// Start with an empty array
 OregonH.Event.eventTypes = [];
-// -----------------------------
 
+// -----------------------------
+// This function takes an Object with properties 
+// and turns them into one of three types of events
 function makeEvent(obj) {
   // obj = { type:'ATTACK', value:7, stat:'crew' }
   // Deconstruct obj into variables from it's properties
@@ -45,12 +51,17 @@ function makeEvent(obj) {
   }
 }
 // ----------------------------
+// This loop looks at all of the objects in 
+// data and makes event type out of each 
+// pushing these event types into OregonH.Event.eventTypes
 for (let i = 0; i < data.length; i += 1) {
   const obj = data[i]
   const event = makeEvent(obj)
   OregonH.Event.eventTypes.push(event)
 }
- 
+
+
+
 OregonH.Event.generateEvent = function(){
   //pick random one
   var eventIndex = Math.floor(Math.random() * this.eventTypes.length);
